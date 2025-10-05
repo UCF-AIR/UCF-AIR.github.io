@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="A.I.R.: Adaptive, Iterative, and Reasoning-based Frame Selection for Video Question Answering">
+  <meta name="keywords" content="Video QA, Frame Selection, Vision-Language Models">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A.I.R.: Adaptive, Iterative, and Reasoning-based Frame Selection for Video Question Answering</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">A.I.R.: Adaptive, Iterative, and Reasoning-based Frame Selection for Video Question Answering</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://alexco1d.github.io/" target="_blank">Yuanhao Zou</a><sup style="color:#6fbf73;">1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://aestine.github.io/" target="_blank">Shengji Jin</a><sup style="color:#ed4b82;">2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://dengandong.github.io/" target="_blank">Andong Deng</a><sup style="color:#6fbf73;">1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://kennethzhao24.github.io/" target="_blank">Youpeng Zhao</a><sup style="color:#6fbf73;">1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.cass.eecs.ucf.edu/jun-wang/" target="_blank">Jun Wang</a><sup style="color:#6fbf73;">1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.crcv.ucf.edu/chenchen/" target="_blank">Chen Chen</a><sup style="color:#6fbf73;">1</sup>
+            </span>
+          </div>
+          
+          <div class="is-size-5 publication-authors">
+            <span class="author-block" style="margin-right: 15px;"><sup style="color:#6fbf73;">1</sup>University of Central Florida,</span>
+            <span class="author-block" style="margin-right: 15px;"><sup style="color:#ed4b82;">2</sup>Weill Cornell Medicine</span><br>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (Coming Soon)</span>
+                </a>
+              </span>
+              <!-- arXiv Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/YOUR_ARXIV_ID"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming Soon)</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser Figure -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure>
+        <img src="./static/images/intro.png" alt="Challenges in Query-Related Frame Selection">
+        <figcaption class="has-text-centered">
+          <p class="subtitle">
+            <strong>Figure 1:</strong> Key challenges in query-related frame selection. (a) Pipeline overview with two approaches: 
+            lightweight models (CLIP) vs. VLM analysis. (b) Lightweight models fail on complex queries with ambiguous similarity. 
+            (c) VLM analysis leads to computation cost explosion.
+          </p>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Effectively applying Vision-Language Models (VLMs) to Video Question Answering (VideoQA) hinges on selecting a concise yet comprehensive set of frames,
+            as processing entire videos is computationally infeasible. However, current frame selection methods face a critical trade-off: approaches relying on lightweight 
+            similarity models, such as CLIP, often fail to capture the nuances of complex queries, resulting in inaccurate similarity scores that cannot accurately reflect 
+            the authentic query-frame relevance, which further undermines frame selection.
+          </p>
+          <p>
+            Meanwhile, methods that leverage a VLM for deeper analysis achieve higher accuracy but incur prohibitive computational costs. 
+            To address these limitations, we propose A.I.R, a training-free approach for Adaptive, Iterative, and Reasoning-based frame selection. 
+            We leverage a powerful VLM to perform deep, semantic analysis on complex queries, and this analysis is deployed within a cost-effective 
+            iterative loop that processes only a small batch of the most promising frames at a time.
+          </p>
+          <p>
+            Extensive experiments on various VideoQA benchmarks demonstrate that our approach outperforms existing frame selection methods, 
+            significantly boosts the performance of the foundation VLM, and achieves substantial gains in computational efficiency over other VLM-based techniques.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Method Overview Figure 2 -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Method Overview</h2>
+        <figure class="image">
+          <img src="./static/images/arch.png" alt="A.I.R. Pipeline">
+          <figcaption class="has-text-centered">
+            <p class="subtitle">
+              <strong>Figure 2:</strong> General pipeline of A.I.R. with two stages: (1) Adaptive Initial Sampling that identifies
+              potential 'events' based on query similarity and dynamically samples frames around them using an
+              adaptive budget; and (2) Iterative Frame Selection that progressively refine the frame selection via
+              four steps. The selected frames are then fed into Answering VLM.
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+    <!--/ Method Overview Figure 2 -->
+
+    <!-- Detailed Method Figure 3 -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Method Details</h2>
+        <figure class="image">
+          <img src="./static/images/detail_pipeline.png" alt="A.I.R. Detailed Stages">
+          <figcaption class="has-text-centered">
+            <p class="subtitle">
+              <strong>Figure 3:</strong> Two main stages in our A.I.R. (a) <strong>Adaptive Initial Sampling:</strong> A GMM-based adaptive
+              threshold is applied to the query-frame similarity to identify potential events, and then event-wise
+              sampling is conducted on the refined events to obtain K frames. (b) <strong>Iterative Frame Selection:</strong> 
+              In each iteration, 1) Promising candidates are selected via Interval Potential Ranking; 2)
+              A VLM performs reasoning-based analysis to validate the best frames; 3) An Early-Stop mechanism
+              checks if the frame budget is met; And 4) if not met, the Localized Density Sampling discovers more
+              frames around the validated frames and feed them into the next iteration.
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+    <!--/ Detailed Method Figure 3 -->
+
+    <!-- Key Contributions -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Key Contributions</h2>
+        <div class="content has-text-justified">
+          <ul>
+            <li><strong>Adaptive Initial Sampling:</strong> We introduce a method that moves beyond uniform sampling by dynamically
+            identifying and sampling candidate frames around potential events based on query-frame similarity
+            and controls the output frames via an adaptive budget, robustly handling videos of varied length.</li>
+            
+            <li><strong>Iterative Frame Selection:</strong> We propose a novel algorithm that makes deep VLM analysis computationally 
+            tractable, distinguishing itself from prior methods that rely on a computationally expensive, single-pass analysis over large, fixed frame sets.</li>
+            
+            <li><strong>Extensive Experiments:</strong> We demonstrate that our method can be plug-and-play with diverse foundation VLMs while
+            achieving substantially higher efficiency and accuracy than existing VLM analysis-based methods.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!--/ Key Contributions -->
+
+    <!-- Results Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Experimental Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            Our method demonstrates significant improvements across multiple VideoQA benchmarks with various foundation VLMs:
+          </p>
+        </div>
+        
+        <!-- Results table -->
+        <table class="table is-bordered is-striped is-narrow is-hoverable" style="margin: auto;">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>#Frames</th>
+              <th>Video-MME<br>(w/o sub)</th>
+              <th>MLVU<sub>dev</sub></th>
+              <th>LVB<sub>val</sub></th>
+              <th>EgoSchema</th>
+              <th>NextQA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>QwenVL-2.5</td>
+              <td>32</td>
+              <td>60.8</td>
+              <td>59.3</td>
+              <td>58.1</td>
+              <td>57.6</td>
+              <td>74.3</td>
+            </tr>
+            <tr style="background-color: #e8f5e9;">
+              <td><strong>+A.I.R. (Ours)</strong></td>
+              <td>≤32</td>
+              <td><strong>65.0</strong></td>
+              <td><strong>67.5</strong></td>
+              <td><strong>61.4</strong></td>
+              <td><strong>58.8</strong></td>
+              <td><strong>81.3</strong></td>
+            </tr>
+            <tr>
+              <td>InternVL-3</td>
+              <td>32</td>
+              <td>65.6</td>
+              <td>68.4</td>
+              <td>58.3</td>
+              <td>62.5</td>
+              <td>82.3</td>
+            </tr>
+            <tr style="background-color: #e8f5e9;">
+              <td><strong>+A.I.R. (Ours)</strong></td>
+              <td>≤32</td>
+              <td><strong>68.2</strong></td>
+              <td><strong>74.5</strong></td>
+              <td><strong>62.8</strong></td>
+              <td><strong>63.3</strong></td>
+              <td><strong>82.6</strong></td>
+            </tr>
+            <tr>
+              <td>LLaVA-OneVision</td>
+              <td>32</td>
+              <td>58.5</td>
+              <td>62.4</td>
+              <td>56.6</td>
+              <td>60.2</td>
+              <td>79.3</td>
+            </tr>
+            <tr style="background-color: #e8f5e9;">
+              <td><strong>+A.I.R. (Ours)</strong></td>
+              <td>≤32</td>
+              <td><strong>61.4</strong></td>
+              <td><strong>69.3</strong></td>
+              <td><strong>60.7</strong></td>
+              <td><strong>61.4</strong></td>
+              <td><strong>81.6</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Results Section -->
+
+<!-- Efficiency Analysis Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Efficiency Analysis</h2>
+        <div class="content has-text-justified">
+          <p>
+            A.I.R. achieves superior computational efficiency through its adaptive processing strategy:
+          </p>
+          <ul>
+            <li>Conventional VLM-based methods: Analyze fixed 128 frames → <strong>162.03s</strong></li>
+            <li><strong>A.I.R. (Ours):</strong> Analyzes average 36.5 frames → <strong>42.31s</strong> (74% reduction)</li>
+            <li>Better accuracy with significantly fewer frame analyses</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Efficiency Analysis Section -->
+
+<!-- Visualization Demo Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Frame Selection Process Visualization</h2>
+        <div class="content">
+          <figure class="image">
+            <img src="./static/images/gif.gif" alt="A.I.R. Frame Selection Process">
+            
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Visualization Demo Section -->
+<!-- Qualitative Comparison Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Qualitative Comparison</h2>
+        <div class="content">
+          <p class="has-text-justified">
+            Visual comparison of frame selection results between Uniform Sampling, CLIP (Top-K), and our A.I.R. method on two example questions from different videos. 
+            Our method successfully identifies and selects the most relevant frames for answering complex queries.
+          </p>
+        </div>
+        
+        <!-- Two images side by side -->
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <figure class="image">
+              <img src="./static/images/q1.png" alt="Comparison Example 1">
+              <figcaption class="has-text-centered">
+                <p><strong>Example 1:</strong> Daily activities question</p>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="column is-half">
+            <figure class="image">
+              <img src="./static/images/q2.png" alt="Comparison Example 2">
+              <figcaption class="has-text-centered">
+                <p><strong>Example 2:</strong> Nahuku formation question</p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+        
+        <div class="content has-text-justified">
+          <p>
+            As shown above, A.I.R. demonstrates superior frame selection by focusing on semantically relevant frames. 
+            While Uniform Sampling includes many redundant frames and CLIP (Top-K) often selects visually similar but contextually irrelevant frames, 
+            our method precisely identifies the key moments needed to answer the questions correctly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Qualitative Comparison Section -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{zou2026air,
+  author    = {Zou, Yuanhao and Jin, Shengji and Deng, Andong and Zhao, Youpeng and Wang, Jun and Chen, Chen},
+  title     = {A.I.R.: Adaptive, Iterative, and Reasoning-based Frame Selection for Video Question Answering},
+  journal   = {Under review at ICLR},
+  year      = {2026},
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
